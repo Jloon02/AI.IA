@@ -10,7 +10,9 @@ import {
   CircularProgress,
   Chip,
   Stack,
-  Alert
+  Alert,
+  Switch,
+  FormControlLabel
 } from '@mui/material';
 import { 
   SentimentVeryDissatisfied, 
@@ -30,74 +32,66 @@ const emotionIcons = {
 };
 
 function App() {
-  // Refs
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
   const animationFrameId = useRef(null);
   const active = useRef(false);
   const lastAnalysisTime = useRef(0);
 
-  // State
   const [capturing, setCapturing] = useState(false);
   const [currentResult, setCurrentResult] = useState(null);
   const [resultsHistory, setResultsHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [analysisInterval] = useState(2000); // 2 seconds between analyses
+  const [analysisInterval] = useState(2000);
+  const [useCustomMapping, setUseCustomMapping] = useState(false); // New toggle state
 
-  // Capture and analyze frames
   useEffect(() => {
     active.current = capturing;
     
     const captureFrame = async (timestamp) => {
-      if (!active.current || !webcamRef.current) {
-        return;
-      }
+      if (!active.current || !webcamRef.current) return;
 
-      // Draw frame to canvas
       const canvas = canvasRef.current;
       const context = canvas.getContext('2d');
       context.drawImage(webcamRef.current.video, 0, 0, canvas.width, canvas.height);
 
-      // Throttle analysis based on time
       const now = Date.now();
       if (now - lastAnalysisTime.current > analysisInterval) {
         lastAnalysisTime.current = now;
-        
+
         try {
           setLoading(true);
           setError(null);
-          
+
           const blob = await new Promise(resolve => 
             canvas.toBlob(resolve, 'image/jpeg', 0.9)
           );
-          
+
           const formData = new FormData();
           formData.append('image', blob, 'current_frame.jpg');
-          
+          formData.append('use_custom', useCustomMapping.toString()); // Send toggle to backend
+
           const response = await fetch('http://localhost:5000/save-image', {
             method: 'POST',
             body: formData,
           });
-          
-          if (!response.ok) {
-            throw new Error(`Server returned ${response.status}`);
-          }
-          
+
+          if (!response.ok) throw new Error(`Server returned ${response.status}`);
+
           const data = await response.json();
-          
-          if (data.status === 'error') {
-            throw new Error(data.message);
-          }
-          
+
+          if (data.status === 'error') throw new Error(data.message);
+
           if (data.emotion && data.valence !== undefined && data.arousal !== undefined) {
             const newResult = {
               emotion: data.emotion,
               valence: parseFloat(data.valence),
               arousal: parseFloat(data.arousal),
-              timestamp: new Date().toLocaleTimeString()
+              timestamp: new Date().toLocaleTimeString(),
+              mode: data.mode || 'original' // Show which mapping was used
             };
-            
+
             setCurrentResult(newResult);
             setResultsHistory(prev => [newResult, ...prev.slice(0, 4)]);
           }
@@ -115,7 +109,7 @@ function App() {
     };
 
     if (capturing) {
-      lastAnalysisTime.current = 0; // Reset timer on start
+      lastAnalysisTime.current = 0;
       animationFrameId.current = requestAnimationFrame(captureFrame);
     }
 
@@ -125,7 +119,7 @@ function App() {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [capturing, analysisInterval]);
+  }, [capturing, analysisInterval, useCustomMapping]);
 
   const toggleCapture = () => {
     setCapturing(prev => !prev);
@@ -136,7 +130,6 @@ function App() {
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Paper elevation={6} sx={{ p: 3, borderRadius: 2 }}>
         <Stack spacing={3}>
-          {/* Webcam Section */}
           <Typography variant="h4" align="center" color="primary">
             Emotion Analysis
           </Typography>
@@ -154,6 +147,19 @@ function App() {
             screenshotFormat="image/jpeg"
           />
 
+          {/* Toggle for Custom Mapping */}
+          <FormControlLabel
+            control={
+              <Switch
+                checked={useCustomMapping}
+                onChange={(e) => setUseCustomMapping(e.target.checked)}
+                color="primary"
+              />
+            }
+            label="Use Custom Mapping"
+            sx={{ alignSelf: 'center' }}
+          />
+
           <Button
             variant="contained"
             size="large"
@@ -165,19 +171,17 @@ function App() {
             {capturing ? "Stop Analysis" : "Start Analysis"}
           </Button>
 
-          {/* Error Display */}
           {error && (
             <Alert severity="error" onClose={() => setError(null)}>
               {error}
             </Alert>
           )}
 
-          {/* Current Results */}
           <Paper elevation={2} sx={{ p: 3 }}>
             <Typography variant="h5" gutterBottom>
               Current Analysis
             </Typography>
-            
+
             {currentResult ? (
               <Stack spacing={3}>
                 <Box textAlign="center">
@@ -194,7 +198,7 @@ function App() {
                     }}
                   />
                   <Typography variant="caption" display="block" mt={1}>
-                    Last updated: {currentResult.timestamp}
+                    Last updated: {currentResult.timestamp} ({currentResult.mode})
                   </Typography>
                 </Box>
 
@@ -239,7 +243,6 @@ function App() {
             )}
           </Paper>
 
-          {/* Previous Results */}
           {resultsHistory.length > 0 && (
             <Paper elevation={2} sx={{ p: 3 }}>
               <Typography variant="h6" gutterBottom>
@@ -265,7 +268,7 @@ function App() {
                         {result.emotion}
                       </Typography>
                       <Typography variant="caption" color="text.secondary">
-                        {result.timestamp}
+                        {result.timestamp} ({result.mode})
                       </Typography>
                     </Box>
                     <Typography variant="caption">
@@ -278,7 +281,6 @@ function App() {
           )}
         </Stack>
 
-        {/* Hidden canvas */}
         <canvas 
           ref={canvasRef} 
           style={{ display: 'none' }} 

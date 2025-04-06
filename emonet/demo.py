@@ -25,7 +25,7 @@ emotion_classes = {0:"Neutral", 1:"Happy", 2:"Sad", 3:"Surprise", 4:"Fear", 5:"D
 image_path = Path(__file__).parent / args.image_path
 
 # Loading the model 
-state_dict_path = Path(__file__).parent.joinpath('pretrained', f'emonet_{n_expression}.pth')
+state_dict_path = Path(__file__).parent.joinpath('trainedModel', f'emonet_{n_expression}.pth')
 
 print(f'Loading the model from {state_dict_path}.')
 state_dict = torch.load(str(state_dict_path), map_location='cpu')

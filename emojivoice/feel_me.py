@@ -127,7 +127,7 @@ emoji_mapping = {
 }
 
 def get_latest_emotion_emoji():
-    """Read the most recent emotion emoji from JSON file."""
+    """Read the most recent emotion and map it to an emoji."""
     file_path = '../results/emotion_results.json'
 
     if not os.path.exists(file_path):
@@ -136,14 +136,17 @@ def get_latest_emotion_emoji():
 
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
-            data = json.load(f)
+            content = f.read().strip()
+            if not content:
+                print("Warning: JSON file is empty.")
+                return None
+            data = json.loads(content)
 
         if isinstance(data, list) and data:
             latest_entry = data[-1]
-            emotion = latest_entry.get('emotion', 'neutral')
+            emotion = latest_entry.get('emotion', 'neutral').lower()
 
             emotion_to_emoji = {
-                'angry': '😡',
                 'sad': '😭',
                 'nervous': '😅',
                 'skeptical': '🙄',
@@ -152,13 +155,17 @@ def get_latest_emotion_emoji():
                 'happy': '😁',
                 'loving': '😍',
                 'excited': '🤣',
-                'surprised': '😮',
-                'confident': '😎'
+                'surprise': '😮',
+                'confident': '😎',
+                'anger': '😡' 
+                # 'fear': '😨', Not added
+                # 'disgust': '🤢', Not added
             }
 
-            return emotion_to_emoji.get(emotion, '🙂')  # Fallback to 'neutral' emoji
+            return emotion_to_emoji.get(emotion, '🙂')  # Default fallback
+
         else:
-            print("Warning: JSON file is empty or not a list.")
+            print("Warning: JSON file is empty or malformed.")
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON: {e}")
     except Exception as e:
