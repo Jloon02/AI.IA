@@ -4,9 +4,10 @@ import os
 import sys
 import subprocess
 from werkzeug.utils import secure_filename
-import re  # Added for more robust output parsing
+import re
 import json
 from datetime import datetime
+import csv
 
 app = Flask(__name__)
 CORS(app)
@@ -15,38 +16,88 @@ CORS(app)
 IMAGE_FOLDER = 'images'
 RESULTS_FILE = 'emotion_results.json'
 EMOTION_SCRIPT = "python emonet/demo.py --nclass 8 --image_path"
+EMOTION_MAPPING_CSV = "emotion_mapping.csv"
 
-def save_results(emotion, valence, arousal):
-    """Save results to JSON file with timestamp"""
+# Default emotion mapping (UTF-8 encoded)
+DEFAULT_EMOTION_MAPPING = [
+    {"valence_min": -1.0, "valence_max": -0.6, "arousal_min": 0.4, "arousal_max": 1.0, "emotion": "angry", "emoji": "😡"},
+    {"valence_min": -1.0, "valence_max": -0.6, "arousal_min": 0.0, "arousal_max": 0.4, "emotion": "sad", "emoji": "😭"},
+    {"valence_min": -0.6, "valence_max": -0.2, "arousal_min": 0.6, "arousal_max": 1.0, "emotion": "nervous", "emoji": "😅"},
+    {"valence_min": -0.6, "valence_max": -0.2, "arousal_min": 0.0, "arousal_max": 0.6, "emotion": "skeptical", "emoji": "🙄"},
+    {"valence_min": -0.2, "valence_max": 0.2, "arousal_min": 0.0, "arousal_max": 1.0, "emotion": "neutral", "emoji": "🙂"},
+    {"valence_min": 0.2, "valence_max": 0.6, "arousal_min": 0.0, "arousal_max": 0.6, "emotion": "thoughtful", "emoji": "🤔"},
+    {"valence_min": 0.2, "valence_max": 0.6, "arousal_min": 0.6, "arousal_max": 1.0, "emotion": "happy", "emoji": "😁"},
+    {"valence_min": 0.6, "valence_max": 1.0, "arousal_min": 0.0, "arousal_max": 0.6, "emotion": "loving", "emoji": "😍"},
+    {"valence_min": 0.6, "valence_max": 1.0, "arousal_min": 0.6, "arousal_max": 1.0, "emotion": "excited", "emoji": "🤣"},
+    {"valence_min": -0.2, "valence_max": 0.2, "arousal_min": 0.6, "arousal_max": 1.0, "emotion": "surprised", "emoji": "😮"},
+    {"valence_min": 0.2, "valence_max": 0.6, "arousal_min": 0.4, "arousal_max": 0.8, "emotion": "confident", "emoji": "😎"}
+]
+
+def load_emotion_mapping():
+    """Load emotion mapping from CSV with UTF-8 encoding or use defaults"""
+    try:
+        with open(EMOTION_MAPPING_CSV, mode='r', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            return list(reader)
+    except Exception as e:
+        print(f"Using default emotion mapping. Could not read CSV: {str(e)}")
+        return DEFAULT_EMOTION_MAPPING
+
+def map_to_custom_emotion(valence, arousal):
+    """Map valence/arousal to custom emotion/emoji with proper type conversion"""
+    emotion_mapping = load_emotion_mapping()
+    
+    for mapping in emotion_mapping:
+        try:
+            # Ensure all values are floats
+            v_min = float(mapping.get('valence_min', -1.0))
+            v_max = float(mapping.get('valence_max', 1.0))
+            a_min = float(mapping.get('arousal_min', 0.0))
+            a_max = float(mapping.get('arousal_max', 1.0))
+            
+            if (v_min <= valence <= v_max) and (a_min <= arousal <= a_max):
+                return {
+                    'emotion': mapping.get('emotion', 'neutral'),
+                    'emoji': mapping.get('emoji', '🙂')
+                }
+        except (ValueError, KeyError) as e:
+            print(f"Error processing mapping entry: {e}")
+            continue
+    
+    return {
+        'emotion': 'neutral',
+        'emoji': '🙂'
+    }
+
+def save_results(emotion_data):
+    """Save results to JSON file with error handling"""
     result_data = {
         'timestamp': datetime.now().isoformat(),
-        'emotion': emotion,
-        'valence': valence,
-        'arousal': arousal
+        'emotion': emotion_data.get('emotion', 'neutral'),
+        'emoji': emotion_data.get('emoji', '🙂'),
+        'valence': emotion_data.get('valence', 0.0),
+        'arousal': emotion_data.get('arousal', 0.5)
     }
     
-    # Create results directory if it doesn't exist
-    os.makedirs('results', exist_ok=True)
-    
-    filepath = os.path.join('results', RESULTS_FILE)
-    
     try:
-        # Read existing data if file exists
+        os.makedirs('results', exist_ok=True)
+        filepath = os.path.join('results', RESULTS_FILE)
+        
         existing_data = []
         if os.path.exists(filepath):
-            with open(filepath, 'r') as f:
-                existing_data = json.load(f)
-                if not isinstance(existing_data, list):
-                    existing_data = []
+            try:
+                with open(filepath, 'r', encoding='utf-8') as f:
+                    existing_data = json.load(f)
+                    if not isinstance(existing_data, list):
+                        existing_data = []
+            except Exception as e:
+                print(f"Error reading existing results: {e}")
         
-        # Add new result and keep only last 100 entries
         existing_data.append(result_data)
-        if len(existing_data) > 100:
-            existing_data = existing_data[-100:]
+        existing_data = existing_data[-100:]  # Keep only last 100 entries
         
-        # Write back to file
-        with open(filepath, 'w') as f:
-            json.dump(existing_data, f, indent=2)
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(existing_data, f, indent=2, ensure_ascii=False)
             
     except Exception as e:
         print(f"Error saving results: {str(e)}", file=sys.stderr)
@@ -56,26 +107,23 @@ def save_image():
     if 'image' not in request.files:
         return jsonify({'error': 'No image provided'}), 400
     
-    file = request.files['image']
-    filename = 'current_frame.jpg'
-    filepath = os.path.join(IMAGE_FOLDER, filename)
-    file.save(filepath)
-
-    # Use absolute path to avoid any path issues
-    absolute_path = os.path.abspath(filepath)
-    
     try:
-        # Run emotion analysis with full path
+        file = request.files['image']
+        filename = 'current_frame.jpg'
+        filepath = os.path.join(IMAGE_FOLDER, filename)
+        file.save(filepath)
+        absolute_path = os.path.abspath(filepath)
+
         result = subprocess.run(
             [sys.executable, "emonet/demo.py", "--nclass", "8", "--image_path", absolute_path],
             capture_output=True,
             text=True,
+            encoding='utf-8',
             check=True
         )
 
-        print("Script output:", result.stdout)  # Debugging
+        print("Script output:", result.stdout)
         
-        # Robust parsing using regular expression
         match = re.search(
             r"Predicted Emotion (\w+) - valence (-?\d+\.\d+) - arousal (\d+\.\d+)",
             result.stdout
@@ -84,23 +132,27 @@ def save_image():
         if not match:
             raise ValueError("Could not parse emotion output")
             
-        emotion = match.group(1)
         valence = float(match.group(2))
         arousal = float(match.group(3))
-
-        # Save the results to JSON file
-        save_results(emotion, valence, arousal)
+        
+        custom_emotion = map_to_custom_emotion(valence, arousal)
+        emotion_data = {
+            'valence': valence,
+            'arousal': arousal,
+            'emotion': custom_emotion['emotion'],
+            'emoji': custom_emotion['emoji']
+        }
+        
+        save_results(emotion_data)
         
         return jsonify({
             'status': 'success',
-            'emotion': emotion,
-            'valence': valence,
-            'arousal': arousal,
+            **emotion_data,
             'timestamp': datetime.now().isoformat()
         })
         
     except subprocess.CalledProcessError as e:
-        error_msg = f"Script failed with code {e.returncode}: {e.stderr}"
+        error_msg = f"Script failed: {e.stderr}"
         print(error_msg, file=sys.stderr)
         return jsonify({'status': 'error', 'message': error_msg}), 500
     except Exception as e:
@@ -108,28 +160,7 @@ def save_image():
         print(error_msg, file=sys.stderr)
         return jsonify({'status': 'error', 'message': error_msg}), 500
 
-@app.route('/get-results', methods=['GET'])
-def get_results():
-    """Endpoint to retrieve saved results"""
-    filepath = os.path.join('results', RESULTS_FILE)
-    if not os.path.exists(filepath):
-        return jsonify({'status': 'error', 'message': 'No results available'}), 404
-    
-    try:
-        with open(filepath, 'r') as f:
-            results = json.load(f)
-        return jsonify({
-            'status': 'success',
-            'results': results
-        })
-    except Exception as e:
-        return jsonify({
-            'status': 'error',
-            'message': f"Failed to read results: {str(e)}"
-        }), 500
-
 if __name__ == '__main__':
-    # Create required directories
     os.makedirs(IMAGE_FOLDER, exist_ok=True)
     os.makedirs('results', exist_ok=True)
     app.run(debug=True, port=5000, host='0.0.0.0')

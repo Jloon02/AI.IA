@@ -1,0 +1,12 @@
+valence_min,valence_max,arousal_min,arousal_max,emotion,emoji
+-1.0,-0.6,0.4,1.0,angry,😡
+-1.0,-0.6,0.0,0.4,sad,😭
+-0.6,-0.2,0.6,1.0,nervous,😅
+-0.6,-0.2,0.0,0.6,skeptical,🙄
+-0.2,0.2,0.0,1.0,neutral,🙂
+0.2,0.6,0.0,0.6,thoughtful,🤔
+0.2,0.6,0.6,1.0,happy,😁
+0.6,1.0,0.0,0.6,loving,😍
+0.6,1.0,0.6,1.0,excited,🤣
+-0.2,0.2,0.6,1.0,surprised,😮
+0.2,0.6,0.4,0.8,confident,😎

@@ -125,27 +125,45 @@ emoji_mapping = {
     '😅': 22,
     '🤔': 17
 }
+
 def get_latest_emotion_emoji():
-    """Read the most recent emotion emoji from JSON file"""
+    """Read the most recent emotion emoji from JSON file."""
+    file_path = '../results/emotion_results.json'
+
+    if not os.path.exists(file_path):
+        print(f"Error: File '{file_path}' does not exist.")
+        return None
+
     try:
-        with open('../results/emotion_results.json', 'r') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            if data and isinstance(data, list):
-                emotion = data[-1].get('emotion', 'Neutral')
-                # Map emotion to emoji
-                emotion_to_emoji = {
-                    'Happy': '😁',
-                    'Fear': '🙂',#'😨',
-                    'Anger': '😡',
-                    'Sadness': '😭',
-                    'Surprise': '😮',
-                    'Neutral': '🙂',
-                    'Contempt': '🙄',
-                    'Disgust': '🙂' #'🤢'
-                }
-                return emotion_to_emoji.get(emotion, '🙂')  # Default to smile if no match
-    except (FileNotFoundError, json.JSONDecodeError) as e:
-        print(f"Error reading emotion data: {e}")
+
+        if isinstance(data, list) and data:
+            latest_entry = data[-1]
+            emotion = latest_entry.get('emotion', 'neutral')
+
+            emotion_to_emoji = {
+                'angry': '😡',
+                'sad': '😭',
+                'nervous': '😅',
+                'skeptical': '🙄',
+                'neutral': '🙂',
+                'thoughtful': '🤔',
+                'happy': '😁',
+                'loving': '😍',
+                'excited': '🤣',
+                'surprised': '😮',
+                'confident': '😎'
+            }
+
+            return emotion_to_emoji.get(emotion, '🙂')  # Fallback to 'neutral' emoji
+        else:
+            print("Warning: JSON file is empty or not a list.")
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+
     return None
 
 def get_llm(temperature):

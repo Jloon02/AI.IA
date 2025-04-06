@@ -51,4 +51,7 @@ api-key.txt
 dataset/
 
 # Pretrained models
-emonet/pretrained
+emonet/pretrained/*.pth
+
+# Miniconda install
+emojivoice/Miniconda3-latest-Linux-x86_64.sh
