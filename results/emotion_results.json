@@ -1,187 +1,5 @@
 [
   {
-    "timestamp": "2025-04-06T00:55:23.470784",
-    "emotion": "sad",
-    "valence": -0.548,
-    "arousal": 0.239,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:55:27.601461",
-    "emotion": "neutral",
-    "valence": -0.185,
-    "arousal": 0.23,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:55:31.613528",
-    "emotion": "neutral",
-    "valence": -0.145,
-    "arousal": 0.221,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:55:35.744984",
-    "emotion": "neutral",
-    "valence": 0.264,
-    "arousal": 0.805,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:55:39.567487",
-    "emotion": "happy",
-    "valence": 0.33,
-    "arousal": 0.521,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:55:45.154637",
-    "emotion": "neutral",
-    "valence": 0.288,
-    "arousal": 0.808,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:55:50.591779",
-    "emotion": "neutral",
-    "valence": -0.159,
-    "arousal": 0.156,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:55:55.008472",
-    "emotion": "neutral",
-    "valence": -0.203,
-    "arousal": 0.034,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:23.203999",
-    "emotion": "sad",
-    "valence": -0.434,
-    "arousal": 0.111,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:26.976542",
-    "emotion": "neutral",
-    "valence": -0.239,
-    "arousal": 0.167,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:31.113496",
-    "emotion": "sad",
-    "valence": -0.343,
-    "arousal": 0.115,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:34.907991",
-    "emotion": "neutral",
-    "valence": -0.279,
-    "arousal": 0.153,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:39.072674",
-    "emotion": "neutral",
-    "valence": 0.065,
-    "arousal": 0.253,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:42.904262",
-    "emotion": "neutral",
-    "valence": -0.019,
-    "arousal": 0.201,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:47.084229",
-    "emotion": "neutral",
-    "valence": -0.079,
-    "arousal": 0.24,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:50.951285",
-    "emotion": "nervous",
-    "valence": -0.081,
-    "arousal": 0.664,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:55.099589",
-    "emotion": "nervous",
-    "valence": -0.22,
-    "arousal": 0.622,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:57:58.914208",
-    "emotion": "neutral",
-    "valence": 0.167,
-    "arousal": 0.64,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:58:03.373591",
-    "emotion": "thoughtful",
-    "valence": 0.245,
-    "arousal": 0.6,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:58:38.047942",
-    "emotion": "unknown",
-    "valence": -0.254,
-    "arousal": 0.166,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:58:41.745032",
-    "emotion": "sad",
-    "valence": -0.353,
-    "arousal": 0.184,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:58:45.778374",
-    "emotion": "sad",
-    "valence": -0.396,
-    "arousal": 0.161,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:58:49.579042",
-    "emotion": "sad",
-    "valence": -0.481,
-    "arousal": 0.179,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:58:53.708398",
-    "emotion": "sad",
-    "valence": -0.413,
-    "arousal": 0.384,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:58:57.509047",
-    "emotion": "unknown",
-    "valence": -0.432,
-    "arousal": 0.456,
-    "mode": "custom"
-  },
-  {
-    "timestamp": "2025-04-06T00:59:01.677491",
-    "emotion": "nervous",
-    "valence": -0.091,
-    "arousal": 0.608,
-    "mode": "custom"
-  },
-  {
     "timestamp": "2025-04-06T00:59:05.487352",
     "emotion": "nervous",
     "valence": -0.12,
@@ -697,6 +515,188 @@
     "emotion": "thoughtful",
     "valence": -0.313,
     "arousal": 0.315,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:27:43.905476",
+    "emotion": "Anger",
+    "valence": -0.062,
+    "arousal": 0.321,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:27:44.511726",
+    "emotion": "skeptical",
+    "valence": -0.062,
+    "arousal": 0.321,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:27:48.827462",
+    "emotion": "Anger",
+    "valence": -0.288,
+    "arousal": 0.431,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:27:51.239174",
+    "emotion": "skeptical",
+    "valence": -0.195,
+    "arousal": 0.065,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:27:54.107489",
+    "emotion": "Neutral",
+    "valence": -0.096,
+    "arousal": 0.367,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:27:56.556467",
+    "emotion": "skeptical",
+    "valence": -0.238,
+    "arousal": 0.017,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:27:59.463466",
+    "emotion": "Neutral",
+    "valence": -0.265,
+    "arousal": 0.042,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:02.040199",
+    "emotion": "neutral",
+    "valence": -0.101,
+    "arousal": 0.446,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:05.009531",
+    "emotion": "Surprise",
+    "valence": 0.165,
+    "arousal": 0.698,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:07.337196",
+    "emotion": "happy",
+    "valence": 0.078,
+    "arousal": 0.903,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:10.649729",
+    "emotion": "Neutral",
+    "valence": -0.205,
+    "arousal": 0.183,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:13.282181",
+    "emotion": "thoughtful",
+    "valence": 0.203,
+    "arousal": 0.197,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:15.775837",
+    "emotion": "Happy",
+    "valence": 0.281,
+    "arousal": 0.236,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:18.326351",
+    "emotion": "loving",
+    "valence": 0.334,
+    "arousal": 0.303,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:20.716267",
+    "emotion": "Happy",
+    "valence": 0.129,
+    "arousal": 0.105,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:24.014465",
+    "emotion": "thoughtful",
+    "valence": 0.078,
+    "arousal": 0.053,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:27.194656",
+    "emotion": "Neutral",
+    "valence": -0.087,
+    "arousal": 0.045,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:31.111648",
+    "emotion": "skeptical",
+    "valence": -0.199,
+    "arousal": 0.013,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:33.106858",
+    "emotion": "Neutral",
+    "valence": -0.022,
+    "arousal": 0.064,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:36.022291",
+    "emotion": "skeptical",
+    "valence": -0.097,
+    "arousal": 0.165,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:43.248759",
+    "emotion": "skeptical",
+    "valence": -0.219,
+    "arousal": 0.267,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:48.725943",
+    "emotion": "skeptical",
+    "valence": -0.189,
+    "arousal": 0.041,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:50.401197",
+    "emotion": "Neutral",
+    "valence": -0.189,
+    "arousal": 0.041,
+    "mode": "original"
+  },
+  {
+    "timestamp": "2025-04-06T01:28:56.428832",
+    "emotion": "thoughtful",
+    "valence": -0.381,
+    "arousal": 0.182,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:29:00.302157",
+    "emotion": "thoughtful",
+    "valence": 0.096,
+    "arousal": 0.128,
+    "mode": "custom"
+  },
+  {
+    "timestamp": "2025-04-06T01:29:06.463681",
+    "emotion": "skeptical",
+    "valence": -0.095,
+    "arousal": 0.095,
     "mode": "custom"
   }
 ]
