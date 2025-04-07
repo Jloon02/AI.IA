@@ -101,7 +101,7 @@ if VOICE == 'base':
     SPEAKING_RATE = 0.8
     STEPS = 10
 else:
-    TTS_MODEL_PATH = "./Matcha-TTS/emoji-hri-paige.ckpt"
+    TTS_MODEL_PATH = "./Matcha-TTS/final.ckpt"
     SPEAKING_RATE = 0.8
     STEPS = 10
 
@@ -113,17 +113,19 @@ VOCODER_URLS = {
 }
 
 emoji_mapping = {
-    '😍': 107,
-    '😡': 58,
-    '😎': 79,
-    '😭': 103,
-    '🙄': 66,
-    '😁': 18,
-    '🙂': 12,
-    '🤣': 15,
-    '😮': 54,
-    '😅': 22,
-    '🤔': 17
+   '😍' : 4,
+   '😡' : 5,
+   '😎' : 6,
+   '😭' : 13,
+   '🙄' : 16,
+   '😁' : 26,
+   '🙂' : 30,
+   '🤣' : 38,
+   '😮' : 60,
+   '😅' : 82,
+   '🤔' : 97,
+   '😱' : 7,
+   '🤓' : 65
 }
 
 def get_latest_emotion_emoji():
@@ -157,9 +159,9 @@ def get_latest_emotion_emoji():
                 'excited': '🤣',
                 'surprise': '😮',
                 'confident': '😎',
-                'anger': '😡' 
-                # 'fear': '😨', Not added
-                # 'disgust': '🤢', Not added
+                'anger': '😡',
+                'fear': '😨',
+                'nerd': '🤓'
             }
 
             return emotion_to_emoji.get(emotion, '🙂')  # Default fallback
