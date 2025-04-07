@@ -1,6 +1,44 @@
+# Frontend/Backend requirements for the project
+
 scikit_learn==1.3.0
 torch==2.6.0
 flask==3.0.2
 librosa==0.10.1
-soundfile==0.12.1
 numpy==1.26.4 
+
+# --------- WHISPER LIVE --------- #
+
+PyAudio
+faster-whisper==1.0.1
+torchaudio
+websockets
+onnxruntime==1.16.0
+ffmpeg-python
+scipy
+websocket-client
+numba
+openai-whisper
+kaldialign
+soundfile
+numpy<2
+jiwer
+evaluate
+sounddevice
+
+# --------- MATCHA TTS --------- #
+
+matcha-tts
+emoji
+
+# --------- LLM --------- #
+
+langchain
+langchain-ollama
+langchain-community
+ollama
+
+#---------- Other --------- #
+
+wavio
+pynput
+pygame
