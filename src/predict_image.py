@@ -57,7 +57,7 @@ def main():
     model.to(DEVICE)
     
     # Path to your test image
-    test_image_path = "neutral.jpg"  # Change this to your image path
+    test_image_path = "..images/current_frame.jpg"
     
     # Get prediction
     valence, arousal = predict(test_image_path, model)
