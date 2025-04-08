@@ -49,6 +49,8 @@ uploads/
 *.wav
 api-key.txt
 dataset/
+images/current_frame.jpg
+results/emotion_results.json
 
 # Pretrained models
 emonet/pretrained/*.pth

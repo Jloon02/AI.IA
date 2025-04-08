@@ -1,9 +1,9 @@
 [
   {
-    "timestamp": "2025-04-06T01:10:03.638399",
-    "emotion": "loving",
-    "valence": 0.278,
-    "arousal": 0.39,
-    "mode": "custom"
+    "timestamp": "2025-04-07T22:22:49.732123",
+    "emotion": "Neutral",
+    "valence": -0.17,
+    "arousal": 0.207,
+    "mode": "original"
   }
 ]

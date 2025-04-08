@@ -9,6 +9,8 @@ The system integrates:
 - **EmojiVoice**, an expressive voice synthesizer trained on 13 emoji-labeled emotions.
 - **Ollama**, a large language model for generating emotionally aware responses.
 
+**Project Demo Video:** https://youtu.be/tmpeqIl_dew
+
 ---
 
 ## Project Structure
