@@ -101,7 +101,7 @@ if VOICE == 'base':
     SPEAKING_RATE = 0.8
     STEPS = 10
 else:
-    TTS_MODEL_PATH = "./Matcha-TTS/final.ckpt"
+    TTS_MODEL_PATH = "./Matcha-TTS/last.ckpt"
     SPEAKING_RATE = 0.8
     STEPS = 10
 
