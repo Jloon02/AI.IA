@@ -60,7 +60,7 @@ We proposed a system that:
     - Also used AffectNet's dataset with CNN to achieve valance/arousal scores
 - Recorded our own voice dataset for expressiveness instead of relying on public emotional speech datasets
 
-### Notes for the TA
+### Notes
 - **Voice synthesis quality** may vary due to a smaller dataset size
 - **Real-time processing** was not the focus; the system runs with a modest 2-3 second delay for demonstration
 
